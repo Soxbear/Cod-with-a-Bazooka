@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72dcc5d1fc75f8b488f507a7ba24e608, type: 3}
+  m_Name: Bazooka
+  m_EditorClassIdentifier: 
+  Name: Bazooka
+  Description: A rocket launcher
+  Icon: {fileID: 21300000, guid: 7d129ab4990007c4591312905bfa725b, type: 3}
+  Primary: Rocket
+  Secondary: 
+  PrimaryDescription: A constatnly accelerating rocket that explodes when it hits
+    something
+  SecondaryDescription: 
+  PrimaryDamage: 30
+  SecondaryDamage: 0
+  WeaponGameobject: {fileID: 2586907080449752839, guid: c751ae341ad5f434dbe37119081857f3, type: 3}

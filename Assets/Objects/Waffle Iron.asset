@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72dcc5d1fc75f8b488f507a7ba24e608, type: 3}
+  m_Name: Waffle Iron
+  m_EditorClassIdentifier: 
+  Name: Waffle Iron
+  Description: A tool that can create delicious waffles
+  Icon: {fileID: 21300000, guid: fdb6cd8cb0bd8104c890d9015ac3a5c1, type: 3}
+  Primary: Waffle Throw
+  Secondary: Waffle Bake
+  PrimaryDescription: Shoots a piercing, rock-hard waffle
+  SecondaryDescription: Bakes nearby enemies into waffles if they are killed by the
+    attack
+  PrimaryDamage: 30
+  SecondaryDamage: 30
+  WeaponGameobject: {fileID: 7406349612298668443, guid: 68108bec7e0d00a4caaab3113d84d982, type: 3}
