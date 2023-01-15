@@ -16,8 +16,8 @@ public abstract class Player : MonoBehaviour, Hittable
         get { return Hp; }
         set {
             Hp = value;
-            if (Hp > MaxHealth * IntUpgrades[(int) DefaultIntUpgrade.Health])
-                Hp = MaxHealth * IntUpgrades[(int) DefaultIntUpgrade.Health];
+            if (Hp > MaxHealth + IntUpgrades[(int) DefaultIntUpgrade.Health])
+                Hp = MaxHealth + IntUpgrades[(int) DefaultIntUpgrade.Health];
             else if (Hp <= 0)
                 OnDeath();
         }
@@ -104,9 +104,11 @@ public abstract class Player : MonoBehaviour, Hittable
     public float MaxInteractionRange;
 
     public List<Upgrade> PossibleUpgrades;
+    [HideInInspector]
     public List<int> PossibleUpgradesLevel;
 
     public List<Upgrade> SpecialUpgrades;
+    [HideInInspector]
     public List<int> SpecialUpgradesLevel;
 
     protected bool UseDefaultMovement = true;
@@ -152,7 +154,7 @@ public abstract class Player : MonoBehaviour, Hittable
     }
 
     public BuyResult BuyUpgrade(int Number, UpgradeList List = UpgradeList.Normal) {
-        Upgrade Upgrade = new Upgrade();
+        Upgrade Upgrade = PossibleUpgrades[Number];
         int Level = PossibleUpgradesLevel[Number];
 
         if (!(DnaCount >= Upgrade.Dna[Level + 1] && TechCount >= Upgrade.Tech[Level + 1]))
@@ -188,6 +190,16 @@ public abstract class Player : MonoBehaviour, Hittable
         Special
     }
 
+    IEnumerator Regen() {
+        while (true) {
+            if (IntUpgrades[(int) DefaultIntUpgrade.Regeneration] == 0)
+                yield return null;
+            
+            Health++;
+            yield return new WaitForSeconds(1 / IntUpgrades[(int) DefaultIntUpgrade.Regeneration]);
+        }
+    }
+
     void OnEnable()
     {     
         Body = GetComponent<Rigidbody2D>();
@@ -218,6 +230,32 @@ public abstract class Player : MonoBehaviour, Hittable
                 InteractObject.GetComponent<Interactable>().Interact();
         };
 
+        if (PossibleUpgrades == null)
+            PossibleUpgrades = new List<Upgrade>();
+
+        if (SpecialUpgrades == null)
+            SpecialUpgrades = new List<Upgrade>();
+
+        PossibleUpgradesLevel = new List<int>();
+        for (int i = 0; i < PossibleUpgrades.Count; i++) {
+            PossibleUpgradesLevel.Add(0);
+        }
+
+        SpecialUpgradesLevel = new List<int>(SpecialUpgrades.Count);
+        for (int i = 0; i < SpecialUpgrades.Count; i++) {
+            SpecialUpgradesLevel.Add(0);
+        }
+
+        foreach (Upgrade Upgrade in PossibleUpgrades) {
+            if (Upgrade is IntUpgrade) {
+                IntUpgrades[Upgrade.Target] = (Upgrade as IntUpgrade).Upgrades[0];
+            }
+            else if (Upgrade is FloatUpgrade) {
+                FloatUpgrades[Upgrade.Target] = (Upgrade as FloatUpgrade).Upgrades[0];
+            }
+            //No need for active upgrade prep
+        }
+
         IntUpgrades = new List<int>();
         FloatUpgrades = new List<float>();
         ActiveUpgrades = new List<List<UnityEvent>>();
@@ -239,6 +277,8 @@ public abstract class Player : MonoBehaviour, Hittable
         
         StartCoroutine(UpdateInternalLoop());
         StartCoroutine(FixedUpdateInternalLoop());
+
+        StartCoroutine(Regen());
     }
 
     void FixedUpdateInternal()

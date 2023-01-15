@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+/*
 public class Upgrade : ScriptableObject
 {
     public string Name;
@@ -15,6 +16,7 @@ public class Upgrade : ScriptableObject
 
 [CreateAssetMenu(fileName = "New Int Upgrade", menuName = "Upgrades/Int Upgrade", order = 0)]
 public class IntUpgrade : Upgrade {
+    [Header("Int Upgrade Locations \nHealth = 0 \nRegeneration = 1")]
     public List<int> Upgrades;
 }
 public enum DefaultIntUpgrade {
@@ -24,6 +26,7 @@ public enum DefaultIntUpgrade {
 
 [CreateAssetMenu(fileName = "New Float Upgrade", menuName = "Upgrades/Float Upgrade", order = 1)]
 public class FloatUpgrade : Upgrade {
+    [Header("Float Upgrade Locations \nSpeed, Fire Rate = 0 \nAcceleration = 1 \nDamage = 2")]
     public List<float> Upgrades;
 }
 public enum DefaultFloatUpgrade {
@@ -39,3 +42,4 @@ public class ActiveUpgrade : Upgrade {
 public enum DefaultActiveUpgrade {
 
 }
+*/

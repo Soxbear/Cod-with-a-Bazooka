@@ -91,14 +91,14 @@ public class UpgradeStation : MonoBehaviour, Interactable
 
         switch (UpgradeTarget) {
             case UpgradeTarget.Player:
-                PossibleUpgrades = Player.PossibleUpgrades;
-                UpgradeLevels = Player.PossibleUpgradesLevel;
+                PossibleUpgrades.AddRange(Player.PossibleUpgrades);
+                UpgradeLevels.AddRange(Player.PossibleUpgradesLevel);
                 break;
 
             case UpgradeTarget.Weapon:
                 WeaponUser User = Player as WeaponUser;
-                PossibleUpgrades = User.Weapon.Upgrades;
-                UpgradeLevels = User.WeaponClass.UpgradeLevels;           
+                PossibleUpgrades.AddRange(User.Weapon.Upgrades);
+                UpgradeLevels.AddRange(User.WeaponClass.UpgradeLevels);           
                 break;
         }
         
@@ -113,6 +113,11 @@ public class UpgradeStation : MonoBehaviour, Interactable
             PossibleUpgrades.RemoveAt(ToRemove[ToRemove.Count - 1 - i]);
             UpgradeLevels.RemoveAt(ToRemove[ToRemove.Count - 1 - i]);
         }
+
+        UpgradeIds = new List<int>();
+        UpgradeIds.Add(-1);
+        UpgradeIds.Add(-1);
+        UpgradeIds.Add(-1);
 
         if (PossibleUpgrades.Count > 3) {
             int r = Random.Range(0, PossibleUpgrades.Count - 1);
@@ -174,7 +179,7 @@ public class UpgradeStation : MonoBehaviour, Interactable
 
             if (Id == -1) {
                 Card.Hide();
-                return;
+                continue;
             }
 
             int Level = -1;
@@ -197,6 +202,7 @@ public class UpgradeStation : MonoBehaviour, Interactable
             Card.Description = Upgrade.Description;
             Card.CurrentLevel = Level;
             Card.NewLevel = Level + 1;
+            Debug.Log(Level + 1);
             Card.DNACost = Upgrade.Dna[Level + 1];
             Card.TechCost = Upgrade.Tech[Level + 1];
 
@@ -225,9 +231,7 @@ public class UpgradeStation : MonoBehaviour, Interactable
     {
         Controller = FindObjectOfType<UIController>();
 
-        Player Player = FindObjectOfType<Player>();
-
-        Debug.Log(Player);
+        Player = FindObjectOfType<Player>();
     }
 }
 
