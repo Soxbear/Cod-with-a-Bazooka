@@ -15,7 +15,7 @@ public class Piranha : Enemy, ExternalTriggerStay2DUser
         if (RequestAttack()) {
             Hittable Hittable = Col.GetComponentInParent<Hittable>();
             if (Hittable!= null)
-                Hittable.Hit(Damage, (Vector2) (transform.position - Col.transform.position), 0.25f);
+                Hittable.Hit(Damage, (Vector2) (transform.position - Col.transform.position), 0.25f, HitType.Melee);
         }
     }
 

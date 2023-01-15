@@ -226,6 +226,8 @@ public class UpgradeStation : MonoBehaviour, Interactable
         Controller = FindObjectOfType<UIController>();
 
         Player Player = FindObjectOfType<Player>();
+
+        Debug.Log(Player);
     }
 }
 

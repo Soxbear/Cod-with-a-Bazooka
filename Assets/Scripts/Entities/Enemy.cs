@@ -111,7 +111,7 @@ public abstract class Enemy : MonoBehaviour, Hittable
         }
     }
 
-    public bool Hit(int Damage, Vector2 Direction, float Kb) {
+    public bool Hit(int Damage, Vector2 Direction, float Kb, HitType HitType) {
         Health -= Damage;
         if (Health <= 0) {
             if (!DisableConfetti) {
@@ -129,7 +129,7 @@ public abstract class Enemy : MonoBehaviour, Hittable
         return false;
     }
 
-    public bool HitNoConfetti(int Damage, Vector2 Direction, float Kb) {
+    public bool HitNoConfetti(int Damage, Vector2 Direction, float Kb, HitType HitType) {
         Health -= Damage;
         if (Health <= 0) {
             OnDeath(new EnemyDeathInfo(gameObject.name, this, transform.position, Random.Range(DnaRange.x, DnaRange.y), Random.Range(TechRange.x, TechRange.y)));

@@ -28,7 +28,7 @@ public class Explosion : MonoBehaviour
                 Hittable Hittable;
 
                 if (Hit.attachedRigidbody.TryGetComponent<Hittable>(out Hittable) && (DamageMask == ( DamageMask | 1 << Hit.attachedRigidbody.gameObject.layer))) {
-                    Hittable.Hit(Mathf.RoundToInt(Damage * Mathf.Min(((Relative.magnitude - Distance) * ( -1 / (Distance -1))), 1)), Relative.normalized, 0);
+                    Hittable.Hit(Mathf.RoundToInt(Damage * Mathf.Min(((Relative.magnitude - Distance) * ( -1 / (Distance -1))), 1)), Relative.normalized, 0, HitType.Explosion);
                 }
 
                 //Debug.Log(Hittable);

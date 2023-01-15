@@ -32,7 +32,7 @@ public class KinematicProjectile : MonoBehaviour
     void OnTriggerEnter2D(Collider2D Hit) {
         if (Pierce) {
             if (HitMask == (HitMask | (1 << (int) Hit.gameObject.layer)))
-                Hit.GetComponent<Hittable>().Hit(Damage, Body.velocity.normalized, Knockback);
+                Hit.GetComponent<Hittable>().Hit(Damage, Body.velocity.normalized, Knockback, HitType.Bullet);
 
             if (LevelMask == (LevelMask | (1 << (int) Hit.gameObject.layer)))
                 Destroy(gameObject, DestroyDelay);
@@ -42,7 +42,7 @@ public class KinematicProjectile : MonoBehaviour
 
             if (Hit.attachedRigidbody != null) {
                 if (Hit.attachedRigidbody.TryGetComponent<Hittable>(out Hittable)) {
-                    Hittable.Hit(Damage, Body.velocity.normalized /*Hit.transform.position - transform.position*/, Knockback);
+                    Hittable.Hit(Damage, Body.velocity.normalized /*Hit.transform.position - transform.position*/, Knockback, HitType.Bullet);
                 }
             }
 

@@ -133,7 +133,7 @@ public abstract class Player : MonoBehaviour, Hittable
 
     protected EnemyManager EnemyManager;
 
-    public bool Hit(int Damage, Vector2 Direction, float Knockback) {
+    public bool Hit(int Damage, Vector2 Direction, float Knockback, HitType HitType) {
         Health -= Damage;
         UI.Health = Health;
 
