@@ -20,7 +20,7 @@ public class Explosion : MonoBehaviour
 
         foreach (Collider2D Hit in Hits) {
             Vector2 Relative = Hit.transform.position - transform.position;
-            RaycastHit2D SightHit = Physics2D.Raycast(transform.position, Relative, Relative.magnitude, ProtectionMask);
+            RaycastHit2D SightHit = Physics2D.Raycast((Vector2)transform.position + Relative.normalized * 0.3f, Relative, Relative.magnitude, ProtectionMask);
             if (SightHit.collider == null) {
                 Hit.attachedRigidbody.AddForce(Relative.normalized * Mathf.Min(((Relative.magnitude - Distance) * ( -1 / (Distance -1))), 1) * Force, ForceMode2D.Impulse);
                 //Debug.Log((Relative.normalized * Mathf.Max(0, Distance - Relative.magnitude)) * Force);

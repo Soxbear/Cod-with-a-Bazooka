@@ -75,13 +75,13 @@ SpriteMask:
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 623269868c102844c866207d32be4d23, type: 3}
   m_MaskAlphaCutoff: 0
-  m_FrontSortingLayerID: 0
+  m_FrontSortingLayerID: 1216076213
   m_BackSortingLayerID: 0
-  m_FrontSortingLayer: 0
+  m_FrontSortingLayer: 1
   m_BackSortingLayer: 0
-  m_FrontSortingOrder: 0
-  m_BackSortingOrder: 0
-  m_IsCustomRangeActive: 0
+  m_FrontSortingOrder: 100
+  m_BackSortingOrder: -100
+  m_IsCustomRangeActive: 1
   m_SpriteSortPoint: 0
 --- !u!1 &2364355181292882938
 GameObject:
@@ -153,8 +153,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1216076213
+  m_SortingLayer: 1
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 623269868c102844c866207d32be4d23, type: 3}
   m_Color: {r: 0.78431374, g: 0.19607843, b: 0.19607843, a: 1}
@@ -237,8 +237,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1216076213
+  m_SortingLayer: 1
   m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 476f0d7c29680ad4bb4ea4feac2ad88d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -745,8 +745,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1216076213
+  m_SortingLayer: 1
   m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: da809a55b1f47e1469e3263e1c5c7585, type: 3}
   m_Color: {r: 0.78431374, g: 0.19607843, b: 0.19607843, a: 1}
@@ -840,6 +840,7 @@ GameObject:
   - component: {fileID: 2364355182636959246}
   - component: {fileID: 2364355182636959285}
   - component: {fileID: 2364355182636959281}
+  - component: {fileID: 698495564483283651}
   m_Layer: 7
   m_Name: Piranha
   m_TagString: Untagged
@@ -1000,3 +1001,14 @@ PolygonCollider2D:
       - {x: -0.09666667, y: -0.28}
       - {x: 0.13000001, y: -0.28}
       - {x: 0.28333333, y: -0.27666667}
+--- !u!210 &698495564483283651
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2364355182636959284}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0

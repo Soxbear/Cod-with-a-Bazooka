@@ -268,15 +268,14 @@ public abstract class Player : MonoBehaviour, Hittable
             //No need for active upgrade prep
         }
 
-        IntUpgrades = new List<int>();
-        FloatUpgrades = new List<float>();
-        ActiveUpgrades = new List<List<UnityEvent>>();
+        if (IntUpgrades == null)
+            IntUpgrades = new List<int>();
 
-        IntUpgrades.Add(0);
-        IntUpgrades.Add(0);
+        if (FloatUpgrades == null)
+            FloatUpgrades = new List<float>();
 
-        FloatUpgrades.Add(1);
-        FloatUpgrades.Add(1);
+        if (ActiveUpgrades == null)
+            ActiveUpgrades = new List<List<UnityEvent>>();
 
         OnDeath += () => {
 
