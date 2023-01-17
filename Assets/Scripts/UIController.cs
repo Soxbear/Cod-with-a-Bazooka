@@ -92,7 +92,7 @@ public class UIController : MonoBehaviour
     public int Tech {
         set {
             TechCounter.text = value.ToString();
-            UpgradeDNACounter.text = value.ToString();
+            UpgradeTechCounter.text = value.ToString();
         }
     }
 

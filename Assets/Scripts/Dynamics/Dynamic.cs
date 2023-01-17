@@ -5,5 +5,7 @@ using UnityEngine;
 
 public interface Dynamic<T>
 {
-    
+    void PassValue(T Value);
+
+    T GetValue();
 }

@@ -7,7 +7,8 @@ public class IntUpgrade : Upgrade {
     [Header("Int Upgrade Locations \nHealth = 0 \nRegeneration = 1")]
     public List<int> Upgrades;
 }
-public enum DefaultIntUpgrade {
+public enum DefaultIntUpgrade : int {
     Health = 0,
-    Regeneration = 1
+    Regeneration = 1,
+    AccessLevel = 2
 }

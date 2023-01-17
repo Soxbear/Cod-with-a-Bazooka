@@ -160,6 +160,9 @@ public abstract class Player : MonoBehaviour, Hittable
         if (!(DnaCount >= Upgrade.Dna[Level + 1] && TechCount >= Upgrade.Tech[Level + 1]))
             return BuyResult.Fail;
 
+        DnaCount -= Upgrade.Dna[Level + 1];
+        TechCount -= Upgrade.Tech[Level + 1];
+
         switch (List) {
             case UpgradeList.Normal:
                 Upgrade = PossibleUpgrades[Number];
@@ -174,15 +177,22 @@ public abstract class Player : MonoBehaviour, Hittable
 
         if (Upgrade is IntUpgrade) {
             IntUpgrades[Upgrade.Target] = (Upgrade as IntUpgrade).Upgrades[Level];
+            if (Level == Upgrade.Dna.Count - 1)
+                return BuyResult.Max;
+            return BuyResult.Success;
         }
         else if (Upgrade is FloatUpgrade) {
             FloatUpgrades[Upgrade.Target] = (Upgrade as FloatUpgrade).Upgrades[Level];
+            if (Level == Upgrade.Dna.Count - 1)
+                return BuyResult.Max;
+            return BuyResult.Success;
         }
         else {
             ActiveUpgrades[Upgrade.Target][Level].Invoke();
+            if (Level == Upgrade.Dna.Count - 1)
+                return BuyResult.Max;
+            return BuyResult.Success;
         }
-
-        return BuyResult.Fail;
     }
 
     public enum UpgradeList {
@@ -192,8 +202,10 @@ public abstract class Player : MonoBehaviour, Hittable
 
     IEnumerator Regen() {
         while (true) {
-            if (IntUpgrades[(int) DefaultIntUpgrade.Regeneration] == 0)
+            if (IntUpgrades[(int) DefaultIntUpgrade.Regeneration] == 0) {
                 yield return null;
+                continue;
+            }
             
             Health++;
             yield return new WaitForSeconds(1 / IntUpgrades[(int) DefaultIntUpgrade.Regeneration]);

@@ -889,8 +889,8 @@ MonoBehaviour:
   AttackCooldown: 1
   CanAttackOnStart: 1
   KnockbackMultiplier: 1
-  DnaRange: {x: 100, y: 100}
-  TechRange: {x: 100, y: 100}
+  DnaRange: {x: 1, y: 3}
+  TechRange: {x: 0, y: 0}
   ConfettiColor:
     serializedVersion: 2
     rgba: 4281414083

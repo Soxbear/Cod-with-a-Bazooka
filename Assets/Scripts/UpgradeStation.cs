@@ -24,7 +24,7 @@ public class UpgradeStation : MonoBehaviour, Interactable
                         break;
 
                     case BuyResult.Success:
-                        //switch ()
+                        UpdateCard(Index, Player.PossibleUpgrades[UpgradeIds[Index]], Player.PossibleUpgradesLevel[UpgradeIds[Index]]);
                         break;
 
                     case BuyResult.Max:
@@ -42,6 +42,7 @@ public class UpgradeStation : MonoBehaviour, Interactable
                         break;
 
                     case BuyResult.Success:
+                        UpdateCard(Index, (Player as WeaponUser).Weapon.Upgrades[UpgradeIds[Index]], (Player as WeaponUser).WeaponClass.UpgradeLevels[UpgradeIds[Index]]);
                         break;
 
                     case BuyResult.Max:
@@ -52,7 +53,7 @@ public class UpgradeStation : MonoBehaviour, Interactable
         }
     }
 
-    public void UpgradeCard(int Index, Upgrade Upgrade, int Level) {
+    public void UpdateCard(int Index, Upgrade Upgrade, int Level) {
         UpgradeCardUIController Card = Controller.UpgradeCards[Index];
 
         Card.Show();
@@ -183,7 +184,7 @@ public class UpgradeStation : MonoBehaviour, Interactable
             }
 
             int Level = -1;
-            Upgrade Upgrade = new Upgrade();
+            Upgrade Upgrade;
 
             switch (UpgradeTarget) {
                 case UpgradeTarget.Player:
@@ -195,6 +196,10 @@ public class UpgradeStation : MonoBehaviour, Interactable
                     Level = (Player as WeaponUser).WeaponClass.UpgradeLevels[Id];
                     Upgrade = (Player as WeaponUser).Weapon.Upgrades[Id];
                     break;
+
+                default:
+                    Upgrade = new Upgrade();
+                    break;
             }
 
             Card.Show();
@@ -202,7 +207,6 @@ public class UpgradeStation : MonoBehaviour, Interactable
             Card.Description = Upgrade.Description;
             Card.CurrentLevel = Level;
             Card.NewLevel = Level + 1;
-            Debug.Log(Level + 1);
             Card.DNACost = Upgrade.Dna[Level + 1];
             Card.TechCost = Upgrade.Tech[Level + 1];
 

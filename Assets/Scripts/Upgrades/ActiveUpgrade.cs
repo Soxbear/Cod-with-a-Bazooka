@@ -6,6 +6,6 @@ using UnityEngine;
 public class ActiveUpgrade : Upgrade {
     public List<int> Upgrades;
 }
-public enum DefaultActiveUpgrade {
+public enum DefaultActiveUpgrade : int {
 
 }
