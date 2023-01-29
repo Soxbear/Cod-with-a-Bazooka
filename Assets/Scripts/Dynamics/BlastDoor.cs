@@ -44,8 +44,8 @@ public class BlastDoor : MonoBehaviour, Dynamic<bool>
             return;
 
         if (State && !Open) {
-            StartCoroutine(DynamicUtil.ObjectMove(UpperDoor, new Vector3(0f, 2.5f, 0f), MoveTime));
-            StartCoroutine(DynamicUtil.ObjectMove(LowerDoor, new Vector3(0f, -2.5f, 0f), MoveTime));
+            StartCoroutine(DynamicUtil.ObjectMove(UpperDoor, transform.up * 2.5f, MoveTime));
+            StartCoroutine(DynamicUtil.ObjectMove(LowerDoor, transform.up * -2.5f, MoveTime));
             UpperIndicator.color = Color.green;
             LowerIndicator.color = Color.green;
             IndicatorLight1.color = Color.green;
@@ -54,8 +54,8 @@ public class BlastDoor : MonoBehaviour, Dynamic<bool>
             IndicatorLight4.color = Color.green;
             Open = true;
         } else if (!State && Open) {            
-            StartCoroutine(DynamicUtil.ObjectMove(UpperDoor, new Vector3(0f, -2.5f, 0f), MoveTime));
-            StartCoroutine(DynamicUtil.ObjectMove(LowerDoor, new Vector3(0f, 2.5f, 0f), MoveTime));
+            StartCoroutine(DynamicUtil.ObjectMove(UpperDoor, transform.up * -2.5f, MoveTime));
+            StartCoroutine(DynamicUtil.ObjectMove(LowerDoor, transform.up * 2.5f, MoveTime));
             UpperIndicator.color = Color.red;
             LowerIndicator.color = Color.red;
             IndicatorLight1.color = Color.red;

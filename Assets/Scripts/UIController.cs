@@ -51,7 +51,12 @@ public class UIController : MonoBehaviour
     }
 
     [Header("Health")]
-    public int MaxHealth;
+    public Color OffColor;
+    public int MaxHealth {
+        get {
+            return Player.MaxHealth + Player.IntUpgrades[(int) DefaultIntUpgrade.Health];
+        }
+    }
     public int Health {
         set {
             Text.text = ((int) Mathf.Clamp(value, 0, Mathf.Infinity)).ToString();
@@ -72,7 +77,6 @@ public class UIController : MonoBehaviour
         }
     }
 
-    public Color OffColor;
     
     public TextMeshProUGUI Text;
     public Image[] Segments;

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-public abstract class Player : MonoBehaviour, Hittable
+public abstract class Player : MonoBehaviour, Hittable, IntertalReferenceUser
 {
     [Header("Stats")]
 
@@ -91,6 +91,10 @@ public abstract class Player : MonoBehaviour, Hittable
     }
     bool OpenUI;
 
+    public List<Vector2> InertialReferences {
+        get; set;
+    }
+
 
     [Header("Settings")]
     public int MaxHealth;
@@ -175,24 +179,29 @@ public abstract class Player : MonoBehaviour, Hittable
         
         Level++;
 
+        bool Max = false;
+
         if (Upgrade is IntUpgrade) {
             IntUpgrades[Upgrade.Target] = (Upgrade as IntUpgrade).Upgrades[Level];
             if (Level == Upgrade.Dna.Count - 1)
-                return BuyResult.Max;
-            return BuyResult.Success;
+                Max = true;
         }
         else if (Upgrade is FloatUpgrade) {
             FloatUpgrades[Upgrade.Target] = (Upgrade as FloatUpgrade).Upgrades[Level];
             if (Level == Upgrade.Dna.Count - 1)
-                return BuyResult.Max;
-            return BuyResult.Success;
+                Max = true;
         }
         else {
             ActiveUpgrades[Upgrade.Target][Level].Invoke();
             if (Level == Upgrade.Dna.Count - 1)
-                return BuyResult.Max;
-            return BuyResult.Success;
+                Max = true;
         }
+        
+        Heal((MaxHealth + IntUpgrades[(int) DefaultIntUpgrade.Health]) - Health);
+
+        if (Max)
+            return BuyResult.Max;
+        return BuyResult.Success;
     }
 
     public enum UpgradeList {
@@ -285,6 +294,8 @@ public abstract class Player : MonoBehaviour, Hittable
             DnaCount += Info.Dna;
             TechCount += Info.Tech;
         });
+
+        InertialReferences = new List<Vector2>();
         
         StartCoroutine(UpdateInternalLoop());
         StartCoroutine(FixedUpdateInternalLoop());
@@ -297,7 +308,7 @@ public abstract class Player : MonoBehaviour, Hittable
         if (!UseDefaultMovement)
             goto EndDefaultMovement;
 
-        if (!((MaxSpeed * FloatUpgrades[(int) DefaultFloatUpgrade.Speed]) < (Body.velocity + (MoveVector * (Acceleration * FloatUpgrades[(int) DefaultFloatUpgrade.Acceleration]) / 50)).magnitude))
+        if (!((MaxSpeed * FloatUpgrades[(int) DefaultFloatUpgrade.Speed]) < ((Body.velocity - this.GetTotalInertialReference()) + (MoveVector * (Acceleration * FloatUpgrades[(int) DefaultFloatUpgrade.Acceleration]) * Time.fixedDeltaTime)).magnitude))
             Body.AddForce((MoveVector * (Acceleration * FloatUpgrades[(int) DefaultFloatUpgrade.Acceleration])));
         
         if (MoveVector == Vector2.zero)

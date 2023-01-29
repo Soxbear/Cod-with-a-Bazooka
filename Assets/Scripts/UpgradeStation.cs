@@ -120,38 +120,87 @@ public class UpgradeStation : MonoBehaviour, Interactable
         UpgradeIds.Add(-1);
         UpgradeIds.Add(-1);
 
-        if (PossibleUpgrades.Count > 3) {
+        if (PossibleUpgrades.Count >= 3) {
+
             int r = Random.Range(0, PossibleUpgrades.Count - 1);
-            UpgradeIds[0] = r;
+            switch (UpgradeTarget) {
+                case UpgradeTarget.Player:
+                    UpgradeIds[0] = Player.PossibleUpgrades.IndexOf(PossibleUpgrades[r]);
+                    break;
+
+                case UpgradeTarget.Weapon:
+                    UpgradeIds[0] = (Player as WeaponUser).Weapon.Upgrades.IndexOf(PossibleUpgrades[r]);
+                    break;
+            }
             PossibleUpgrades.RemoveAt(r);
             UpgradeLevels.RemoveAt(r);
 
-            Random.Range(0, PossibleUpgrades.Count - 1);
-            UpgradeIds[1] = r;
+            r = Random.Range(0, PossibleUpgrades.Count - 1);
+            switch (UpgradeTarget) {
+                case UpgradeTarget.Player:
+                    UpgradeIds[1] = Player.PossibleUpgrades.IndexOf(PossibleUpgrades[r]);
+                    break;
+
+                case UpgradeTarget.Weapon:
+                    UpgradeIds[1] = (Player as WeaponUser).Weapon.Upgrades.IndexOf(PossibleUpgrades[r]);
+                    break;
+            }
             PossibleUpgrades.RemoveAt(r);
             UpgradeLevels.RemoveAt(r);
 
-            Random.Range(0, PossibleUpgrades.Count - 1);
-            UpgradeIds[2] = r;
+            r = Random.Range(0, PossibleUpgrades.Count - 1);
+            switch (UpgradeTarget) {
+                case UpgradeTarget.Player:
+                    UpgradeIds[2] = Player.PossibleUpgrades.IndexOf(PossibleUpgrades[r]);
+                    break;
+
+                case UpgradeTarget.Weapon:
+                    UpgradeIds[2] = (Player as WeaponUser).Weapon.Upgrades.IndexOf(PossibleUpgrades[r]);
+                    break;
+            }
             PossibleUpgrades.RemoveAt(r);
             UpgradeLevels.RemoveAt(r);
         }
         else {
             if (PossibleUpgrades.Count > 0) {
                 int r = Random.Range(0, PossibleUpgrades.Count - 1);
-                UpgradeIds[0] = r;
+                switch (UpgradeTarget) {
+                    case UpgradeTarget.Player:
+                        UpgradeIds[0] = Player.PossibleUpgrades.IndexOf(PossibleUpgrades[r]);
+                        break;
+
+                    case UpgradeTarget.Weapon:
+                        UpgradeIds[0] = (Player as WeaponUser).Weapon.Upgrades.IndexOf(PossibleUpgrades[r]);
+                        break;
+                }
                 PossibleUpgrades.RemoveAt(r);
                 UpgradeLevels.RemoveAt(r);
 
                 if (PossibleUpgrades.Count > 1) {
                     r = Random.Range(0, PossibleUpgrades.Count - 1);
-                    UpgradeIds[1] = r;
+                    switch (UpgradeTarget) {
+                        case UpgradeTarget.Player:
+                            UpgradeIds[1] = Player.PossibleUpgrades.IndexOf(PossibleUpgrades[r]);
+                            break;
+
+                        case UpgradeTarget.Weapon:
+                            UpgradeIds[1] = (Player as WeaponUser).Weapon.Upgrades.IndexOf(PossibleUpgrades[r]);
+                            break;
+                    }
                     PossibleUpgrades.RemoveAt(r);
                     UpgradeLevels.RemoveAt(r);
 
                     if (PossibleUpgrades.Count > 2) {
                         r = Random.Range(0, PossibleUpgrades.Count - 1);
-                        UpgradeIds[2] = r;
+                        switch (UpgradeTarget) {
+                            case UpgradeTarget.Player:
+                                UpgradeIds[2] = Player.PossibleUpgrades.IndexOf(PossibleUpgrades[r]);
+                                break;
+
+                            case UpgradeTarget.Weapon:
+                                UpgradeIds[2] = (Player as WeaponUser).Weapon.Upgrades.IndexOf(PossibleUpgrades[r]);
+                                break;
+                        }
                         PossibleUpgrades.RemoveAt(r);
                         UpgradeLevels.RemoveAt(r);
                     }
@@ -200,6 +249,11 @@ public class UpgradeStation : MonoBehaviour, Interactable
                 default:
                     Upgrade = new Upgrade();
                     break;
+            }
+
+            if (Upgrade.Dna.Count == Level) {
+                Card.Hide();
+                continue;
             }
 
             Card.Show();

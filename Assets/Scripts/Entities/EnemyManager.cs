@@ -5,6 +5,8 @@ using UnityEngine.Events;
 
 public class EnemyManager : MonoBehaviour
 {
+    public static EnemyManager Manager;
+
     public List<Enemy> Enemies;
 
     [HideInInspector]
@@ -14,6 +16,11 @@ public class EnemyManager : MonoBehaviour
     public UnityEvent<EnemyDeathInfo> OnEnemyDeath;
 
     void OnEnable() {
+        if (Manager != null)
+            Destroy(this);
+
+        Manager = this;
+
         Enemies = new List<Enemy>();
 
         RegisterEnemy.AddListener((Enemy) => {

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Enemy : MonoBehaviour, Hittable
+public abstract class Enemy : MonoBehaviour, Hittable, IntertalReferenceUser
 {
 
     [Header("Stats")]
@@ -12,6 +12,10 @@ public abstract class Enemy : MonoBehaviour, Hittable
     private bool NavErrorReached;
 
     private bool CanAttack;
+
+    public List<Vector2> InertialReferences {
+        get; set;
+    }
 
     [Header("Settings")]
     public int MaxHealth;
@@ -106,7 +110,7 @@ public abstract class Enemy : MonoBehaviour, Hittable
     void FixedUpdateInternal() {
         MoveVector = TargetPos - (Vector2) transform.position;
 
-        if (!(Speed < (Body.velocity + (MoveVector.normalized * Acceleration / 50)).magnitude) && !NavErrorReached) {
+        if (!(Speed < ((Body.velocity - this.GetTotalInertialReference()) + (MoveVector.normalized * Acceleration * Time.fixedDeltaTime)).magnitude) && !NavErrorReached) {
             Body.AddForce(Vector2.Lerp(MoveVector.normalized, MoveVector.normalized - (Body.velocity.normalized - MoveVector.normalized), VelocityCorrection).normalized * Acceleration);
         }
     }
@@ -176,6 +180,8 @@ public abstract class Enemy : MonoBehaviour, Hittable
             EnemyManager.OnEnemyDeath.Invoke(Info);
         };
         EnemyManager.RegisterEnemy.Invoke(this);
+
+        InertialReferences = new List<Vector2>();
 
         TargetPos = transform.position;
 

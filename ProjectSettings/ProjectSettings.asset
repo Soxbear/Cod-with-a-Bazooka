@@ -135,7 +135,8 @@ PlayerSettings:
     16:9: 1
     Others: 1
   bundleVersion: 1.0
-  preloadedAssets: []
+  preloadedAssets:
+  - {fileID: 0}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -568,11 +569,11 @@ PlayerSettings:
   m_MobileRenderingPath: 1
   metroPackageName: 2D_URP
   metroPackageVersion: 
-  metroCertificatePath: 
+  metroCertificatePath: S:\Game Dev\Unity Projects\Cod with a Bazooka\Assets\WSATestCertificate.pfx
   metroCertificatePassword: 
-  metroCertificateSubject: 
-  metroCertificateIssuer: 
-  metroCertificateNotAfter: 0000000000000000
+  metroCertificateSubject: DefaultCompany
+  metroCertificateIssuer: DefaultCompany
+  metroCertificateNotAfter: 00ef1050f04cda01
   metroApplicationDescription: 2D_URP
   wsaImages: {}
   metroTileShortName: 

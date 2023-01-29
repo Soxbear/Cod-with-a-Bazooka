@@ -129,10 +129,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdba9b050e3c6c942ad3414056309f4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IntUpgrades: 
+  FloatUpgrades: []
+  UpgradeLevels: 
   AimOffset: 0.625
   ShotsPerSecond: 1
   Projectile: {fileID: 6469009494838740406, guid: 630ada337e2e4f747b8138056aa70480, type: 3}
-  Recoil: 3
+  Recoil: 6
   Automatic: 1
   ShootPoint: {fileID: 7406349611900227710}
   BakeRadius: 5

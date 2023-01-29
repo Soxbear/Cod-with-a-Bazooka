@@ -12,6 +12,8 @@ public class RocketProjectile : MonoBehaviour
 
     public GameObject Explosion;
 
+    bool Exploded;
+
     Rigidbody2D Body;
 
     void Start() {
@@ -30,6 +32,10 @@ public class RocketProjectile : MonoBehaviour
     }
 
     void OnTriggerEnter2D(Collider2D Col) {
+        if (Col.GetComponent<NoWeaponInteraction>() || Exploded)
+            return;
+
+        Exploded = true;
         Instantiate(Explosion, transform.position, transform.rotation);
         Destroy(gameObject);
     }

@@ -12,7 +12,7 @@ public class Keypad : MonoBehaviour, Interactable, Dynamic<bool>
 
     bool Unlocked;
 
-    public GameObject OutputObject;
+    public MonoBehaviour OutputClass;
 
     Dynamic<bool> Output;
 
@@ -90,6 +90,8 @@ public class Keypad : MonoBehaviour, Interactable, Dynamic<bool>
             Renderer.sprite = DisabledScreen;
         }
 
-        Output = OutputObject.GetComponent<Dynamic<bool>>();
+        if (OutputClass is Dynamic<bool>) {
+            Output = (OutputClass as Dynamic<bool>);
+        }
     }
 }

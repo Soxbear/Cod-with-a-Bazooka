@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c3758cbc6ccbff741af2082822fc8846, type: 3}
-  m_Name: __Test_Regen
+  m_Name: Max Health
   m_EditorClassIdentifier: 
-  Name: Test Regen
-  Description: This is a test regen upgrade
-  Target: 1
-  Dna: 00000000010000000200000003000000
-  Tech: 00000000010000000200000003000000
+  Name: Max Health
+  Description: More health
+  Target: 0
+  Dna: 000000000a000000140000001e00000032000000
+  Tech: 0000000000000000000000000000000000000000
   Badges: 
-  Upgrades: 00000000050000000a0000000f000000
+  Upgrades: 0000000019000000320000004b00000064000000
