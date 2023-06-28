@@ -202,7 +202,6 @@ MonoBehaviour:
   m_Bounds:
     m_Center: {x: -0.19994009, y: 0.00030195713, z: 0}
     m_Extent: {x: 0.8591161, y: 0.28532398, z: 0}
-  m_UseBatching: 1
   m_AlwaysUpdate: 1
   m_AutoRebind: 0
 --- !u!212 &4804985128050982967
@@ -267,6 +266,25 @@ PolygonCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -403,6 +421,7 @@ PolygonCollider2D:
       - {x: -0.2, y: -0.27800003}
       - {x: -0.17600001, y: -0.27}
       - {x: -0.128, y: -0.246}
+  m_UseDelaunayMesh: 0
 --- !u!1 &4804985129064919506
 GameObject:
   m_ObjectHideFlags: 0
@@ -452,33 +471,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 747425c4e0b7db04a89630ec5fe4fc8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hp: 100
-  HasControl: 1
-  AnimationControl: 1
-  MoveVector: {x: 0, y: 0}
-  AimPos: {x: 0, y: 0}
-  IntUpgrades: 000000000000000000000000
-  FloatUpgrades:
-  - 1
-  - 1
-  MaxHealth: 100
-  MaxSpeed: 5
-  Acceleration: 10
-  IdleDrag: 1.5
-  MaxRotationChange: 360
-  MaxInteractionRange: 1
-  PossibleUpgrades:
-  - {fileID: 11400000, guid: 966b5899a8af49549ae93c7fd1ed803b, type: 2}
-  - {fileID: 11400000, guid: e2c28e8f98d36ca40904765c421160a3, type: 2}
-  - {fileID: 11400000, guid: 62aeed64c4a34364b84e13eff2d4cbb2, type: 2}
-  PossibleUpgradesLevel: 
-  SpecialUpgrades: []
-  SpecialUpgradesLevel: 
-  InteractableMask:
+  hp: 100
+  hasControl: 1
+  animationControl: 1
+  moveVector: {x: 0, y: 0}
+  aimPos: {x: 0, y: 0}
+  intUpgrades: 00000000
+  floatUpgrades: []
+  maxHealth: 100
+  maxSpeed: 20
+  acceleration: 40
+  idleDrag: 0
+  maxRotationChange: 0
+  maxInteractionRange: 0
+  possibleUpgrades: []
+  possibleUpgradesLevel: 
+  specialUpgrades: []
+  specialUpgradesLevel: 
+  interactableMask:
     serializedVersion: 2
     m_Bits: 1024
-  Body: {fileID: 0}
-  PlayerBody: {fileID: 0}
+  body: {fileID: 0}
+  playerBody: {fileID: 0}
   HeldWeapon: {fileID: 11400000, guid: d0c4cc9edde8a5a448923b87fdef0575, type: 2}
 --- !u!50 &4804985129064919460
 Rigidbody2D:
@@ -497,13 +511,19 @@ Rigidbody2D:
   m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 6200000, guid: cf5c0e7b8723e07498284392cfae151b, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
   m_Interpolate: 1
   m_SleepingMode: 0
   m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!95 &4804985129064919459
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -520,7 +540,8 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!58 &4804985129064919458
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -531,6 +552,25 @@ CircleCollider2D:
   m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0

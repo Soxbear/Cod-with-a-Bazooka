@@ -23,12 +23,24 @@ public class Piranha : Enemy, ExternalTriggerStay2DUser
     {
         BodyAnimator = transform.GetChild(1).GetComponent<Animator>();
         FaceAnimator = transform.GetChild(0).GetComponent<Animator>();
+
+        onDetect += (time) => {
+            FaceAnimator.enabled = true;
+            FaceAnimator.Play("TeethReveal");
+        };
+        onDetectLoss += (time) => {
+            FaceAnimator.enabled = true;
+            FaceAnimator.Play("TeethHide");
+        };
     }
 
     // Update is called once per frame
     void Update()
     {
-        Detect((Vector2) FindObjectOfType<Player>().GetComponent<Transform>().position);
-        BodyAnimator.SetFloat("Speed", Body.velocity.magnitude);
+        BodyAnimator.SetFloat("Speed", body.velocity.magnitude);
+    }
+
+    void FixedUpdate() {
+        Detect();
     }
 }

@@ -9,7 +9,7 @@ public class CodPlayer : Player, WeaponUser
 
     Transform AimPivot;
 
-    public WeaponObject Weapon {
+    public WeaponObject weapon {
         get {
             return HeldWeapon;
         }
@@ -19,20 +19,20 @@ public class CodPlayer : Player, WeaponUser
                 Destroy(transform.GetChild(0).GetChild(0).GetChild(0));
 
             Instantiate(HeldWeapon.WeaponGameobject, transform.GetChild(0).GetChild(0));
-            WeaponClass = transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Weapon>();
+            weaponClass = transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Weapon>();
         }
     }
     public WeaponObject HeldWeapon;
 
     [HideInInspector]
-    public Weapon WeaponClass {
+    public Weapon weaponClass {
         get; set;
     }
 
 
     //[Header("References")]
     [HideInInspector]
-    public Transform WeaponPivot {
+    public Transform weaponPivot {
         get {
             return AimPivot;
         }
@@ -41,19 +41,19 @@ public class CodPlayer : Player, WeaponUser
         }
     }
     [HideInInspector]
-    public Rigidbody2D Rb {
+    public Rigidbody2D rb {
         get {
-            return Body;
+            return body;
         }
         set {
-            Body = value;
+            body = value;
         }
     }
 
     void Update() {
-        float Angle = Vector2.SignedAngle(Vector2.right, AimPos);
+        float Angle = Vector2.SignedAngle(Vector2.right, aimPos);
 
-        float Subtract = Mathf.Asin(WeaponClass.AimOffset / AimPos.magnitude) * Mathf.Rad2Deg;
+        float Subtract = Mathf.Asin(weaponClass.AimOffset / aimPos.magnitude) * Mathf.Rad2Deg;
 
         if (!float.IsNaN(Angle-Subtract)) {
             AimPivot.Rotate(0f, 0f, (Angle - Subtract) - AimPivot.rotation.eulerAngles.z);
@@ -63,19 +63,19 @@ public class CodPlayer : Player, WeaponUser
     void Start() {
         AimPivot = transform.GetChild(0);
 
-        Weapon = HeldWeapon;
+        weapon = HeldWeapon;
 
         OnPrimary += () => {
-            WeaponClass.OnPrimary();
+            weaponClass.OnPrimary();
         };
         OnSecondary += () => {
-            WeaponClass.OnSecondary();
+            weaponClass.OnSecondary();
         };
-        WeaponClass.GetPrimary += () => {
-            return Primary;
+        weaponClass.GetPrimary += () => {
+            return primary;
         };
-        WeaponClass.GetSecondary += () => {
-            return Secondary;
+        weaponClass.GetSecondary += () => {
+            return secondary;
         };
 
 

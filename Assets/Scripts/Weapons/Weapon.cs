@@ -44,7 +44,7 @@ public abstract class Weapon : MonoBehaviour
     }
 
     public void ApplyRecoil(float Amount) {
-        WeaponUser.Rb.AddForce(WeaponUser.WeaponPivot.rotation * new Vector2(Amount, 0f), ForceMode2D.Impulse);
+        WeaponUser.rb.AddForce(WeaponUser.weaponPivot.rotation * new Vector2(Amount, 0f), ForceMode2D.Impulse);
     }
 
 
@@ -54,7 +54,7 @@ public abstract class Weapon : MonoBehaviour
         Upgrade Upgrade = new Upgrade();
         int Level = UpgradeLevels[Number];
 
-        if (!(Player.DnaCount >= Upgrade.Dna[Level + 1] && Player.TechCount >= Upgrade.Tech[Level + 1]))
+        if (!(Player.dnaCount >= Upgrade.Dna[Level + 1] && Player.techCount >= Upgrade.Tech[Level + 1]))
             return BuyResult.Fail;
 
         switch (List) {
@@ -108,7 +108,7 @@ public abstract class Weapon : MonoBehaviour
         ReloadPrimary(0.1f);
         ReloadSecondary(0.1f);
         WeaponUser = GetComponentInParent<WeaponUser>();
-        Object = WeaponUser.Weapon;
+        Object = WeaponUser.weapon;
     }
 }
 

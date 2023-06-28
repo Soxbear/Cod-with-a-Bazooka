@@ -17,7 +17,7 @@ TagManager:
   - Map
   - Interactable
   - Current
-  - 
+  - WeaponAffected
   - 
   - 
   - 
@@ -40,6 +40,9 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Terrain
+    uniqueID: 2817235163
     locked: 0
   - name: Enemy Change Mask 1
     uniqueID: 1216076213

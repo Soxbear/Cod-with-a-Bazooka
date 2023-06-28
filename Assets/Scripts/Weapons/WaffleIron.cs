@@ -27,7 +27,7 @@ public class WaffleIron : ProjectilePrimaryWeapon
 
             if (Enemy.HitNoConfetti(BakeDamage, Enemy.transform.position - transform.position, 0, HitType.Special)) {
                 GameObject NewWaffle = Instantiate(Waffle, Enemy.transform.position, Quaternion.identity);
-                NewWaffle.GetComponent<SpriteRenderer>().color = Enemy.ConfettiColor;
+                NewWaffle.GetComponent<SpriteRenderer>().color = Enemy.confettiColor;
             }
 
         }

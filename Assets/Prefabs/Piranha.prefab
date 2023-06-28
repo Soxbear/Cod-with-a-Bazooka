@@ -77,7 +77,7 @@ SpriteMask:
   m_MaskAlphaCutoff: 0
   m_FrontSortingLayerID: 1216076213
   m_BackSortingLayerID: 0
-  m_FrontSortingLayer: 1
+  m_FrontSortingLayer: 2
   m_BackSortingLayer: 0
   m_FrontSortingOrder: 100
   m_BackSortingOrder: -100
@@ -154,7 +154,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1216076213
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 623269868c102844c866207d32be4d23, type: 3}
   m_Color: {r: 0.78431374, g: 0.19607843, b: 0.19607843, a: 1}
@@ -238,7 +238,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1216076213
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 476f0d7c29680ad4bb4ea4feac2ad88d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -538,6 +538,25 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -652,12 +671,11 @@ MonoBehaviour:
   m_Bounds:
     m_Center: {x: -0.024311662, y: -0.0016666651, z: 0}
     m_Extent: {x: 0.61097836, y: 0.35499996, z: 0}
-  m_UseBatching: 1
   m_AlwaysUpdate: 1
   m_AutoRebind: 0
 --- !u!95 &2364355182021246776
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -674,7 +692,8 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2364355182189855082
 GameObject:
   m_ObjectHideFlags: 0
@@ -746,7 +765,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1216076213
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: da809a55b1f47e1469e3263e1c5c7585, type: 3}
   m_Color: {r: 0.78431374, g: 0.19607843, b: 0.19607843, a: 1}
@@ -798,13 +817,13 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &2364355182504520357
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2364355182504520358}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 1439dd64ce5412e4eb3df2ee62a40b6e, type: 2}
   m_CullingMode: 0
@@ -815,7 +834,8 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &2364355182504520356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -878,33 +898,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 600334c9fe0080a47b9676522737c04a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 50
-  MaxHealth: 50
-  Speed: 3
-  Acceleration: 15
-  MaxNavError: 1
-  VelocityCorrection: 1
-  AttackRange: 10
-  Rotation: 1
-  MaxRotationChange: 360
-  AttackCooldown: 1
-  CanAttackOnStart: 1
-  KnockbackMultiplier: 1
-  DnaRange: {x: 1, y: 3}
-  TechRange: {x: 0, y: 0}
-  ConfettiColor:
+  health: 50
+  maxHealth: 50
+  speed: 3
+  acceleration: 10
+  maxNavError: 0.3
+  velocityCorrection: 0.5
+  attackRange: 7
+  rotation: 1
+  maxRotationChange: 360
+  attackCooldown: 1
+  canAttackOnStart: 1
+  knockbackMultiplier: 1
+  dnaRange: {x: 1, y: 3}
+  techRange: {x: 0, y: 0}
+  confettiColor:
     serializedVersion: 2
-    rgba: 4281414083
-  PlayerMask:
+    rgba: 4278190277
+  playerMask:
     serializedVersion: 2
     m_Bits: 8
-  WallMask:
+  wallMask:
     serializedVersion: 2
     m_Bits: 512
-  ToFlipSprite: []
-  ToFlipObject:
-  - {fileID: 2364355182504520359}
-  - {fileID: 2364355182021246779}
+  toFlipSprite: []
+  toFlipObject:
+  - {fileID: 2364355182636959283}
   Damage: 10
 --- !u!50 &2364355182636959285
 Rigidbody2D:
@@ -923,6 +942,12 @@ Rigidbody2D:
   m_AngularDrag: 1000000
   m_GravityScale: 0
   m_Material: {fileID: 6200000, guid: cf5c0e7b8723e07498284392cfae151b, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
   m_Interpolate: 1
   m_SleepingMode: 2
   m_CollisionDetection: 1
@@ -937,6 +962,25 @@ PolygonCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -1001,6 +1045,7 @@ PolygonCollider2D:
       - {x: -0.09666667, y: -0.28}
       - {x: 0.13000001, y: -0.28}
       - {x: 0.28333333, y: -0.27666667}
+  m_UseDelaunayMesh: 0
 --- !u!210 &698495564483283651
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -1012,3 +1057,4 @@ SortingGroup:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_SortAtRoot: 0
