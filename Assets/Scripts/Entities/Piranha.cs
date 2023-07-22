@@ -27,6 +27,7 @@ public class Piranha : Enemy, ExternalTriggerStay2DUser
         onDetect += (time) => {
             FaceAnimator.enabled = true;
             FaceAnimator.Play("TeethReveal");
+            Debug.Log("Test");
         };
         onDetectLoss += (time) => {
             FaceAnimator.enabled = true;
