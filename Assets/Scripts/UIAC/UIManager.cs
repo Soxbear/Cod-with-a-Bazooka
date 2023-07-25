@@ -5,6 +5,8 @@ using UnityEngine;
 public static class UIManager
 {
     public static HealthUIController healthUI;
+
+    public static ResourceUIController resourceUI;
 }
 
 public abstract class UIController : MonoBehaviour {

@@ -21,7 +21,7 @@ public abstract class Player : MonoBehaviour, Hittable, IntertalReferenceUser
             else if (hp <= 0)
                 OnDeath();
         }
-    }
+    } 
     protected Action OnDeath;
 
     protected Action OnPrimary;
@@ -59,6 +59,7 @@ public abstract class Player : MonoBehaviour, Hittable, IntertalReferenceUser
         }
         set {
             dna = value;
+            UIManager.resourceUI.dna = value;
             // UI.Dna = value;
         }
     }
@@ -69,6 +70,7 @@ public abstract class Player : MonoBehaviour, Hittable, IntertalReferenceUser
         }
         set {
             tech = value;
+            UIManager.resourceUI.tech = value;
             // UI.Tech = value;
         }
     }
@@ -244,6 +246,8 @@ public abstract class Player : MonoBehaviour, Hittable, IntertalReferenceUser
         
         UIManager.healthUI.maxHealth = _maxHealth;
         UIManager.healthUI.health = health;
+        UIManager.resourceUI.dna = dna;
+        UIManager.resourceUI.tech = tech;
 
         controls.Enable();
         controls.Player.Movement.performed += ctx => { 
