@@ -2,17 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UpgradeMetadata : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
+namespace Upgrades {
+    public class UpgradeMetadata : ScriptableObject
     {
+        public string upgradeName;
+
+        public Sprite[] image;
         
+        public string[] description;
+
+        public string[] indicators;
+
+        public int maxLevel;
+
+        public int[] dna;
+
+        public int[] tech;
+
+        public int[] coins;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public enum UpgradeStation {
+        BIOTECH
     }
 }
+

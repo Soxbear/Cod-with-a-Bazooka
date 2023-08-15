@@ -14,6 +14,5 @@ public class WeaponObject : ScriptableObject
     public string SecondaryDescription;
     public int PrimaryDamage;
     public int SecondaryDamage;
-    public List<Upgrade> Upgrades;
     public GameObject WeaponGameobject;
 }

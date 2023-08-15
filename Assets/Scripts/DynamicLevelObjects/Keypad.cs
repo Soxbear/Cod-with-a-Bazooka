@@ -29,17 +29,17 @@ public class Keypad : MonoBehaviour, Interactable
         if (Unlocked) {
             output.channelValue = true;
         }
-        else if (FindObjectOfType<Player>().intUpgrades[(int) DefaultIntUpgrade.AccessLevel] >= AccessLevel) {
-            Unlocked = true;
+        // else if (FindObjectOfType<Player>().intUpgrades[(int) DefaultIntUpgrade.AccessLevel] >= AccessLevel) {
+        //     Unlocked = true;
 
-            Renderer.sprite = UnlockedScreen;
-            Light.color = new Color(0f, 0.5f, 1f, 1f);
+        //     Renderer.sprite = UnlockedScreen;
+        //     Light.color = new Color(0f, 0.5f, 1f, 1f);
 
-            output.channelValue = false;
-        }
-        else {
+        //     output.channelValue = false;
+        // }
+        // else {
             
-        }
+        // }
     }
 
     public void SetPower(bool Value) {

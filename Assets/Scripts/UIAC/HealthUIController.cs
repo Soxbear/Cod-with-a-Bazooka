@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class HealthUIController : UIController
+public class HealthUIController : MonoBehaviour
 {
     public float barChangeRate;
 

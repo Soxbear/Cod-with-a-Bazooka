@@ -9,14 +9,6 @@ public abstract class Weapon : MonoBehaviour
 
     WeaponObject Object;
 
-    public List<int> IntUpgrades;
-    public List<float> FloatUpgrades;
-    public List<List<UnityEvent>> ActiveUpgrades;
-
-
-    public List<int> UpgradeLevels;
-
-
     public float AimOffset;
 
     public virtual void OnPrimary() {
@@ -45,38 +37,6 @@ public abstract class Weapon : MonoBehaviour
 
     public void ApplyRecoil(float Amount) {
         WeaponUser.rb.AddForce(WeaponUser.weaponPivot.rotation * new Vector2(Amount, 0f), ForceMode2D.Impulse);
-    }
-
-
-    public BuyResult BuyUpgrade(int Number, UpgradeList List = UpgradeList.Normal) {
-        Player Player = FindObjectOfType<Player>();
-
-        Upgrade Upgrade = new Upgrade();
-        int Level = UpgradeLevels[Number];
-
-        if (!(Player.dnaCount >= Upgrade.Dna[Level + 1] && Player.techCount >= Upgrade.Tech[Level + 1]))
-            return BuyResult.Fail;
-
-        switch (List) {
-            case UpgradeList.Normal:
-                Upgrade = Object.Upgrades[Number];
-                UpgradeLevels[Number]++;
-                break;
-        }
-        
-        Level++;
-
-        if (Upgrade is IntUpgrade) {
-            IntUpgrades[Upgrade.Target] = (Upgrade as IntUpgrade).Upgrades[Level];
-        }
-        else if (Upgrade is FloatUpgrade) {
-            FloatUpgrades[Upgrade.Target] = (Upgrade as FloatUpgrade).Upgrades[Level];
-        }
-        else {
-            ActiveUpgrades[Upgrade.Target][Level].Invoke();
-        }
-
-        return BuyResult.Fail;
     }
 
     public enum UpgradeList {

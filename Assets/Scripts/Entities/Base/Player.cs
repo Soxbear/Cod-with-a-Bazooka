@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using Upgrades;
 
-public abstract class Player : MonoBehaviour, Hittable, IntertalReferenceUser
+public abstract class Player : MonoBehaviour, Hittable, IntertalReferenceUser, Upgradable
 {
     [Header("Stats")]
 
@@ -16,12 +17,35 @@ public abstract class Player : MonoBehaviour, Hittable, IntertalReferenceUser
         set {
             hp = value;
             UIManager.healthUI.health = value;
-            if (hp > maxHealth + intUpgrades[(int) DefaultIntUpgrade.Health])
-                hp = maxHealth + intUpgrades[(int) DefaultIntUpgrade.Health];
+            if (hp > maxHealth)
+                hp = maxHealth;
             else if (hp <= 0)
                 OnDeath();
         }
-    } 
+    }
+
+    public Dictionary<Upgrade, int> upgradeLevels {
+        get {
+            return lvls;
+        }
+        set {
+            lvls = value;
+        }
+    }
+
+    public Upgrade[] upgradeList {
+        get {
+            return upgs;
+        }
+        set {
+            upgs = value;
+        }
+    }
+
+    Upgrade[] upgs;
+
+    Dictionary<Upgrade, int> lvls = new Dictionary<Upgrade, int>();
+
     protected Action OnDeath;
 
     protected Action OnPrimary;
@@ -50,10 +74,10 @@ public abstract class Player : MonoBehaviour, Hittable, IntertalReferenceUser
     [HideInInspector]
     public Vector2 aimPos;
 
-    private int dna;
-    private int tech;
+    private static int dna;
+    private static int tech;
 
-    public int dnaCount {
+    public static int dnaCount {
         get {
             return dna;
         }
@@ -64,7 +88,7 @@ public abstract class Player : MonoBehaviour, Hittable, IntertalReferenceUser
         }
     }
 
-    public int techCount {
+    public static int techCount {
         get {
             return tech;
         }
@@ -74,10 +98,6 @@ public abstract class Player : MonoBehaviour, Hittable, IntertalReferenceUser
             // UI.Tech = value;
         }
     }
-
-    public List<int> intUpgrades;
-    public List<float> floatUpgrades;
-    public List<List<UnityEvent>> activeUpgrades;
 
     protected bool UIOpen {
         set {
@@ -118,14 +138,6 @@ public abstract class Player : MonoBehaviour, Hittable, IntertalReferenceUser
     public float maxRotationChange;
 
     public float maxInteractionRange;
-
-    public List<Upgrade> possibleUpgrades;
-    [HideInInspector]
-    public List<int> possibleUpgradesLevel;
-
-    public List<Upgrade> specialUpgrades;
-    [HideInInspector]
-    public List<int> specialUpgradesLevel;
 
     protected bool useDefaultMovement = true;
     protected bool useDefaultRotation = true;
@@ -169,69 +181,17 @@ public abstract class Player : MonoBehaviour, Hittable, IntertalReferenceUser
         //UI.Health = health;
     }
 
-    public BuyResult BuyUpgrade(int number, UpgradeList list = UpgradeList.Normal) {
-        Upgrade upgrade = possibleUpgrades[number];
-        int level = possibleUpgradesLevel[number];
-
-        if (!(dnaCount >= upgrade.Dna[level + 1] && techCount >= upgrade.Tech[level + 1]))
-            return BuyResult.Fail;
-
-        dnaCount -= upgrade.Dna[level + 1];
-        techCount -= upgrade.Tech[level + 1];
-
-        switch (list) {
-            case UpgradeList.Normal:
-                upgrade = possibleUpgrades[number];
-                possibleUpgradesLevel[number]++;
-                break;
-
-            case UpgradeList.Special:
-                break;
-        }
-        
-        level++;
-
-        bool max = false;
-
-        if (upgrade is IntUpgrade) {
-            intUpgrades[upgrade.Target] = (upgrade as IntUpgrade).Upgrades[level];
-            if (level == upgrade.Dna.Count - 1)
-                max = true;
-        }
-        else if (upgrade is FloatUpgrade) {
-            floatUpgrades[upgrade.Target] = (upgrade as FloatUpgrade).Upgrades[level];
-            if (level == upgrade.Dna.Count - 1)
-                max = true;
-        }
-        else {
-            activeUpgrades[upgrade.Target][level].Invoke();
-            if (level == upgrade.Dna.Count - 1)
-                max = true;
-        }
-        
-        Heal((maxHealth + intUpgrades[(int) DefaultIntUpgrade.Health]) - health);
-
-        if (max)
-            return BuyResult.Max;
-        return BuyResult.Success;
-    }
-
-    public enum UpgradeList {
-        Normal,
-        Special
-    }
-
-    IEnumerator Regen() {
-        while (true) {
-            if (intUpgrades[(int) DefaultIntUpgrade.Regeneration] == 0) {
-                yield return null;
-                continue;
-            }
+    // IEnumerator Regen() {
+    //     while (true) {
+    //         if (intUpgrades[(int) DefaultIntUpgrade.Regeneration] == 0) {
+    //             yield return null;
+    //             continue;
+    //         }
             
-            health++;
-            yield return new WaitForSeconds(1 / intUpgrades[(int) DefaultIntUpgrade.Regeneration]);
-        }
-    }
+    //         health++;
+    //         yield return new WaitForSeconds(1 / intUpgrades[(int) DefaultIntUpgrade.Regeneration]);
+    //     }
+    // }
 
     void OnEnable()
     {     
@@ -256,52 +216,25 @@ public abstract class Player : MonoBehaviour, Hittable, IntertalReferenceUser
         controls.Player.Movement.canceled += ctx => { moveVector = ctx.ReadValue<Vector2>(); };
         
         controls.Player.Fire.performed += (Info) => {
-            OnPrimary();
+            if (Time.timeScale != 0)
+                OnPrimary();
         };
         controls.Player.Secondary.performed += (Info) => {
-            OnSecondary();
+            if (Time.timeScale != 0)
+                OnSecondary();
         };
         controls.Player.Interact.performed += (Info) => {
+            if (Time.timeScale == 0)
+                return;
+
             Collider2D interactObject = Physics2D.OverlapCircle(transform.position, maxInteractionRange, interactableMask);
 
             if (interactObject != null)
                 interactObject.GetComponent<Interactable>().Interact();
         };
-
-        if (possibleUpgrades == null)
-            possibleUpgrades = new List<Upgrade>();
-
-        if (specialUpgrades == null)
-            specialUpgrades = new List<Upgrade>();
-
-        possibleUpgradesLevel = new List<int>();
-        for (int i = 0; i < possibleUpgrades.Count; i++) {
-            possibleUpgradesLevel.Add(0);
-        }
-
-        specialUpgradesLevel = new List<int>(specialUpgrades.Count);
-        for (int i = 0; i < specialUpgrades.Count; i++) {
-            specialUpgradesLevel.Add(0);
-        }
-
-        foreach (Upgrade upgrade in possibleUpgrades) {
-            if (upgrade is IntUpgrade) {
-                intUpgrades[upgrade.Target] = (upgrade as IntUpgrade).Upgrades[0];
-            }
-            else if (upgrade is FloatUpgrade) {
-                floatUpgrades[upgrade.Target] = (upgrade as FloatUpgrade).Upgrades[0];
-            }
-            //No need for active upgrade prep
-        }
-
-        if (intUpgrades == null)
-            intUpgrades = new List<int>();
-
-        if (floatUpgrades == null)
-            floatUpgrades = new List<float>();
-
-        if (activeUpgrades == null)
-            activeUpgrades = new List<List<UnityEvent>>();
+        controls.Menu.Exit.performed += (Info) => {
+            MenuController.Exit();
+        };
 
         OnDeath += () => {
 
@@ -317,7 +250,7 @@ public abstract class Player : MonoBehaviour, Hittable, IntertalReferenceUser
         StartCoroutine(UpdateInternalLoop());
         StartCoroutine(FixedUpdateInternalLoop());
 
-        StartCoroutine(Regen());
+        // StartCoroutine(Regen());
     }
 
     void FixedUpdateInternal()
@@ -325,8 +258,8 @@ public abstract class Player : MonoBehaviour, Hittable, IntertalReferenceUser
         if (!useDefaultMovement)
             goto EndDefaultMovement;
 
-        if (!((maxSpeed * floatUpgrades[(int) DefaultFloatUpgrade.Speed]) < ((body.velocity - this.GetTotalInertialReference()) + (moveVector * (acceleration * floatUpgrades[(int) DefaultFloatUpgrade.Acceleration]) * Time.fixedDeltaTime)).magnitude))
-            body.AddForce((moveVector * (acceleration * floatUpgrades[(int) DefaultFloatUpgrade.Acceleration])));
+        if (!((maxSpeed) < ((body.velocity - this.GetTotalInertialReference()) + (moveVector * (acceleration) * Time.fixedDeltaTime)).magnitude))
+            body.AddForce((moveVector * (acceleration)));
         
         if (moveVector == Vector2.zero)
             body.drag = idleDrag;

@@ -17,6 +17,8 @@ public class Menu : MonoBehaviour
 
     public bool PauseGame;
 
+    public bool hideHud;
+
     public bool CustomControlMethod;
 
     float Target;
@@ -61,6 +63,10 @@ public class Menu : MonoBehaviour
             // Controller.Controls.Enable();
             // Controller.Player.controls.Disable();
         }
+    }
+
+    public virtual void Exit() {
+        MenuController.CloseMenus();
     }
 
     void Start()
