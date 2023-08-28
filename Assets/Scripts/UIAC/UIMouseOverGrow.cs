@@ -5,6 +5,8 @@ using UnityEngine.EventSystems;
 
 public class UIMouseOverGrow : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    Vector3 startScale;
+
     public float ScaleChange;
 
     public float Time;
@@ -28,6 +30,10 @@ public class UIMouseOverGrow : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
         float Scale = 1 + ScaleChange * DynamicUtil.EvaluateCurve(DynamicUtil.EvalCurve.Sine, Actual / Time);
 
-        transform.localScale = new Vector3(Scale, Scale, Scale);
+        transform.localScale = startScale * Scale;
+    }
+
+    void Start() {
+        startScale = transform.localScale;
     }
 }

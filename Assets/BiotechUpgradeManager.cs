@@ -25,14 +25,16 @@ public class BiotechUpgradeManager : MonoBehaviour
         else
             none.enabled = false;
 
+        int l = us.Length;
+
         us = new Upgrade[] {(us.Length >= 1) ? us[0] : new Upgrade(false), (us.Length >= 2) ? us[1] : new Upgrade(false), (us.Length >= 3) ? us[2] : new Upgrade(false)};
         
         upgradable = u;
         upgrades = us;
 
-        tiles[0].SetTile(upgrades[0], upgradable.upgradeLevels[upgrades[0]]);
-        tiles[1].SetTile(upgrades[1], upgradable.upgradeLevels[upgrades[1]]);
-        tiles[2].SetTile(upgrades[2], upgradable.upgradeLevels[upgrades[2]]);
+        tiles[0].SetTile(upgrades[0], (l < 1) ? 0 : upgradable.upgradeLevels[upgrades[0]]);
+        tiles[1].SetTile(upgrades[1], (l < 1) ? 0 : upgradable.upgradeLevels[upgrades[1]]);
+        tiles[2].SetTile(upgrades[2], (l < 1) ? 0 : upgradable.upgradeLevels[upgrades[2]]);
     }
 
     public void Buy(int number) {

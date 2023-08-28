@@ -5,7 +5,9 @@ using UnityEngine.Rendering.Universal;
 using Soxbear.Channels;
 
 public class LightObject : MonoBehaviour, Hittable
-{
+{   
+    const float blinkSpeed = 14f;
+
     public ChannelReadWrite<bool> setState;
 
     public ChannelReadWrite<bool> toggleState;
@@ -17,7 +19,12 @@ public class LightObject : MonoBehaviour, Hittable
     private int health;
 
     [SerializeField]
+    private int maxHealth;
+
+    [SerializeField]
     private Light2D[] lights;
+
+    private float[] lightIntensity;
 
     [SerializeField]
     private Sprite onSprite;
@@ -50,10 +57,18 @@ public class LightObject : MonoBehaviour, Hittable
     }
 
     void Start() {
+        lightIntensity = new float[lights.Length - 1];
+
         setState.onUpdate += OnSetStateUpdate;
         toggleState.onUpdate += OnToggleStateUpdate;
 
         spriteRend = GetComponent<SpriteRenderer>();
+
+        for (int i = 0; i < lights.Length; i++) {
+            Debug.Log(lightIntensity[i]);
+            Debug.Log(lights[i]);
+            lightIntensity[i] = lights[i].intensity;
+        }
 
         LightState();
     }
@@ -71,9 +86,22 @@ public class LightObject : MonoBehaviour, Hittable
 
     void LightState() {
         foreach (Light2D light in lights) {
-            light.intensity = (on) ? 1 : 0;
+            light.enabled = on;
         }
         spriteRend.sprite = (on) ? onSprite : offSprite;
         spriteRend.material = (on) ? onMaterial : offMaterial;
+    }
+
+    void Update() {
+        if (Mathf.PerlinNoise1D(Time.time * blinkSpeed) >= ((float) health / (float) maxHealth)) {
+            for (int i = 0; i < lights.Length; i++) {
+                lights[i].intensity = lightIntensity[i] * 0.85f;
+            }
+        }
+        else {
+            for (int i = 0; i < lights.Length; i++) {
+                lights[i].intensity = lightIntensity[i];
+            }
+        }
     }
 }

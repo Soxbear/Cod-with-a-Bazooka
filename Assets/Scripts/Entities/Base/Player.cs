@@ -8,21 +8,131 @@ using Upgrades;
 
 public abstract class Player : MonoBehaviour, Hittable, IntertalReferenceUser, Upgradable
 {
-    [Header("Stats")]
+    [Header("Health")]
 
     [SerializeField]
     private int hp;
     public int health {
         get { return hp; }
         set {
-            hp = value;
-            UIManager.healthUI.health = value;
-            if (hp > maxHealth)
-                hp = maxHealth;
-            else if (hp <= 0)
+            hp = Mathf.Max(0, Mathf.Min(value, maxHealth));
+
+            UIManager.healthUI.health = hp;
+
+            if (hp <= 0)
                 OnDeath();
         }
     }
+
+    [SerializeField]
+    protected float regen;
+
+    [SerializeField]
+    private int _maxHealth;
+    public int maxHealth {
+        get {
+            return _maxHealth + maxHealthBoost;
+        }
+        // set {
+        //     _maxHealth = value;
+        //     UIManager.healthUI.maxHealth = value;
+        // }--
+    }
+
+    [SerializeField]
+    protected int maxHealthBoost;
+
+
+
+    [Header("Movement")]
+    
+    protected bool useDefaultMovement = true;
+
+    public float maxSpeed;
+
+    [SerializeField]
+    protected float maxSpeedUpgrade;
+
+    public float acceleration;
+
+    [SerializeField]
+    protected float accelerationUpgrade;
+
+    public float idleDrag;
+
+    [SerializeField]
+    protected float idleDragUpgrade;
+
+    public List<Vector2> inertialReferences {
+        get; set;
+    }
+
+
+
+    [Header("Animation")]
+
+    [HideInInspector]
+    Animator animator;
+
+    protected bool useDefaultAnimator = true;
+    protected bool useDefaultRotation = true;
+
+    public bool animationControl = true;
+    
+    private bool flip;
+
+    public float maxRotationChange;
+
+
+
+    [Header("Controls")]
+    protected Action OnDeath;
+
+    protected Action OnPrimary;
+
+    protected bool primary {
+        get {
+            return (controls != null) ? controls.Player.Fire.IsPressed() : false;
+        }
+    }
+    
+    protected Action OnSecondary;
+
+    protected bool secondary {
+        get {
+            return (controls != null) ? controls.Player.Secondary.IsPressed() : false;
+        }
+    }
+
+    public bool hasControl = true;
+
+    [HideInInspector]
+    public Vector2 moveVector;
+
+    [HideInInspector]
+    public Vector2 aimPos;
+
+    protected bool UIOpen {
+        set {
+            openUI = value;
+            if (value)
+                controls.Player.Disable();
+            else
+                controls.Player.Enable();
+        }
+        get {
+            return openUI;
+        }
+    }
+    bool openUI;
+    
+    public float maxInteractionRange;
+
+    public LayerMask interactableMask;
+    
+    public InputMaster controls;
+
+
 
     public Dictionary<Upgrade, int> upgradeLevels {
         get {
@@ -44,35 +154,7 @@ public abstract class Player : MonoBehaviour, Hittable, IntertalReferenceUser, U
 
     Upgrade[] upgs;
 
-    Dictionary<Upgrade, int> lvls = new Dictionary<Upgrade, int>();
-
-    protected Action OnDeath;
-
-    protected Action OnPrimary;
-
-    protected bool primary {
-        get {
-            return (controls != null) ? controls.Player.Fire.IsPressed() : false;
-        }
-    }
-    
-    protected Action OnSecondary;
-
-    protected bool secondary {
-        get {
-            return (controls != null) ? controls.Player.Secondary.IsPressed() : false;
-        }
-    }
-
-    private bool flip;
-    public bool hasControl = true;
-    public bool animationControl = true;
-
-    [HideInInspector]
-    public Vector2 moveVector;
-
-    [HideInInspector]
-    public Vector2 aimPos;
+    Dictionary<Upgrade, int> lvls = new Dictionary<Upgrade, int>();    
 
     private static int dna;
     private static int tech;
@@ -84,7 +166,6 @@ public abstract class Player : MonoBehaviour, Hittable, IntertalReferenceUser, U
         set {
             dna = value;
             UIManager.resourceUI.dna = value;
-            // UI.Dna = value;
         }
     }
 
@@ -95,66 +176,13 @@ public abstract class Player : MonoBehaviour, Hittable, IntertalReferenceUser, U
         set {
             tech = value;
             UIManager.resourceUI.tech = value;
-            // UI.Tech = value;
         }
     }
 
-    protected bool UIOpen {
-        set {
-            openUI = value;
-            if (value)
-                controls.Player.Disable();
-            else
-                controls.Player.Enable();
-        }
-        get {
-            return openUI;
-        }
-    }
-    bool openUI;
 
-    public List<Vector2> inertialReferences {
-        get; set;
-    }
-
-
-    [Header("Settings")]
-    [SerializeField]
-    private int _maxHealth;
-    public int maxHealth {
-        get {
-            return _maxHealth;
-        }
-        set {
-            _maxHealth = value;
-            UIManager.healthUI.maxHealth = value;
-        }
-    }
-
-    public float maxSpeed;
-    public float acceleration;
-    public float idleDrag;
-
-    public float maxRotationChange;
-
-    public float maxInteractionRange;
-
-    protected bool useDefaultMovement = true;
-    protected bool useDefaultRotation = true;
-    protected bool useDefaultAnimator = true;
-
-    public LayerMask interactableMask;
-    
-    public InputMaster controls;
-
-
-    [Header("References")]
 
     [HideInInspector]
     public Rigidbody2D body;
-
-    [HideInInspector]
-    Animator animator;
 
     [HideInInspector]
     public Transform playerBody;
@@ -165,7 +193,6 @@ public abstract class Player : MonoBehaviour, Hittable, IntertalReferenceUser, U
 
     public bool Hit(int damage, Vector2 direction, float knockback, HitType hitType) {
         health -= damage;
-        //UI.Health = health;
 
         if (health <= 0) {
             //Death code
@@ -178,31 +205,24 @@ public abstract class Player : MonoBehaviour, Hittable, IntertalReferenceUser, U
 
     public void Heal(int amount) {
         health += amount;
-        //UI.Health = health;
     }
 
-    // IEnumerator Regen() {
-    //     while (true) {
-    //         if (intUpgrades[(int) DefaultIntUpgrade.Regeneration] == 0) {
-    //             yield return null;
-    //             continue;
-    //         }
-            
-    //         health++;
-    //         yield return new WaitForSeconds(1 / intUpgrades[(int) DefaultIntUpgrade.Regeneration]);
-    //     }
-    // }
+    IEnumerator Regen() {
+        while (true) {
+            if (regen > 0) {
+                yield return new WaitForSeconds(1/regen);
+                health++;
+            }
+        }
+    }
 
     void OnEnable()
     {     
         body = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        // UI = FindObjectOfType<UIController>();
         enemyManager = FindObjectOfType<EnemyManager>();
         controls = new InputMaster(); 
         playerBody = transform.GetChild(1).transform;
-
-        // UI = FindObjectOfType<UIController>();
         
         UIManager.healthUI.maxHealth = _maxHealth;
         UIManager.healthUI.health = health;
@@ -250,7 +270,7 @@ public abstract class Player : MonoBehaviour, Hittable, IntertalReferenceUser, U
         StartCoroutine(UpdateInternalLoop());
         StartCoroutine(FixedUpdateInternalLoop());
 
-        // StartCoroutine(Regen());
+        StartCoroutine(Regen());
     }
 
     void FixedUpdateInternal()
@@ -287,7 +307,6 @@ public abstract class Player : MonoBehaviour, Hittable, IntertalReferenceUser, U
             Vector2 rotVector = moveVector;
 
             float desiredAngle = Vector2.SignedAngle(Vector2.right, rotVector);
-            //DesiredAngle = (DesiredAngle < 0) ? (360 + DesiredAngle) : DesiredAngle;
 
             float trueAngle = Mathf.MoveTowardsAngle(lastTrueAngle, desiredAngle, maxRotationChange * Time.deltaTime);
 
@@ -307,7 +326,6 @@ public abstract class Player : MonoBehaviour, Hittable, IntertalReferenceUser, U
         
         EndDefaultRotation:
         
-        // aimPos = controls.Player.AimRelative.ReadValue<Vector2>() * 10;
         aimPos = (Vector2) Camera.main.ScreenToWorldPoint(controls.Player.AimScreen.ReadValue<Vector2>()) - (Vector2) transform.position;
     }
     

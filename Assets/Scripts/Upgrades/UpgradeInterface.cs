@@ -17,40 +17,40 @@ namespace Upgrades {
             get; set;
         }
 
-        Upgrade[] GetUpgrades(UpgradeStation station) {
-            if (upgradeList == null) {
-                List<Upgrade> upgrades = new List<Upgrade>();
+        // Upgrade[] GetUpgrades(UpgradeStation station) {
+        //     if (upgradeList == null) {
+        //         List<Upgrade> upgrades = new List<Upgrade>();
 
-                foreach (MethodInfo m in this.GetType().GetMethods()) {
-                    foreach (UpgradeHandler h in m.GetCustomAttributes<UpgradeHandler>(false)) {
-                        if (h.station != station)
-                            continue;
+        //         foreach (MethodInfo m in this.GetType().GetMethods()) {
+        //             foreach (UpgradeHandler h in m.GetCustomAttributes<UpgradeHandler>(false)) {
+        //                 if (h.station != station)
+        //                     continue;
                         
-                        UpgradeMethod method;
+        //                 UpgradeMethod method;
 
-                        try {
-                            method = (UpgradeMethod) m.CreateDelegate(typeof(UpgradeMethod));
-                        }
-                        catch (Exception) {
-                            Debug.LogError("Upgrade Method did not match the required delegate");
-                            continue;
-                        }
+        //                 try {
+        //                     method = (UpgradeMethod) m.CreateDelegate(typeof(UpgradeMethod));
+        //                 }
+        //                 catch (Exception) {
+        //                     Debug.LogError("Upgrade Method did not match the required delegate");
+        //                     continue;
+        //                 }
 
-                        upgrades.Add(new Upgrade(method, Resources.Load<UpgradeMetadata>($"Upgrades/{h.metadataName}")));
+        //                 upgrades.Add(new Upgrade(method, Resources.Load<UpgradeMetadata>($"Upgrades/{h.metadataName}")));
 
-                        if (!upgradeLevels.Keys.Contains(upgrades.Last()))
-                            upgradeLevels.Add(upgrades.Last(), -1);
-                    }
-                }
+        //                 if (!upgradeLevels.Keys.Contains(upgrades.Last()))
+        //                     upgradeLevels.Add(upgrades.Last(), -1);
+        //             }
+        //         }
 
-                foreach (Upgrade u in upgrades) {
-                    upgradeLevels.Add(u, -1);
-                }
+        //         foreach (Upgrade u in upgrades) {
+        //             upgradeLevels.Add(u, -1);
+        //         }
 
-                upgradeList = upgrades.ToArray();
-            }
+        //         upgradeList = upgrades.ToArray();
+        //     }
 
-            return upgradeList;
-        }
+        //     return upgradeList;
+        // }
     }
 }

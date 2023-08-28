@@ -31,6 +31,8 @@ public class MenuController : MonoBehaviour
         else 
             _hud.Open();
 
+        _shade.Open();
+
         menus[menu].Open();
         foreach (MenuType m in menus.Keys) {
             if (m != menu)

@@ -33,6 +33,7 @@ public class UpgradeTileController : MonoBehaviour
         if (upgrade.empty) {
             group.alpha = 0;
             group.blocksRaycasts = false;
+            return;
         }
         else {
             group.alpha = 1;
