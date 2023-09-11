@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Upgrades {
+    [CreateAssetMenu(fileName = "New Upgrade", menuName = "Upgrade", order = 0)]
     public class UpgradeMetadata : ScriptableObject
     {
         public string upgradeName;

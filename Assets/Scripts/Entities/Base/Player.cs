@@ -36,7 +36,7 @@ public abstract class Player : MonoBehaviour, Hittable, IntertalReferenceUser, U
         // set {
         //     _maxHealth = value;
         //     UIManager.healthUI.maxHealth = value;
-        // }--
+        // }
     }
 
     [SerializeField]
@@ -134,7 +134,7 @@ public abstract class Player : MonoBehaviour, Hittable, IntertalReferenceUser, U
 
 
 
-    public Dictionary<Upgrade, int> upgradeLevels {
+    public Dictionary<string, int> upgradeLevels {
         get {
             return lvls;
         }
@@ -154,7 +154,7 @@ public abstract class Player : MonoBehaviour, Hittable, IntertalReferenceUser, U
 
     Upgrade[] upgs;
 
-    Dictionary<Upgrade, int> lvls = new Dictionary<Upgrade, int>();    
+    Dictionary<string, int> lvls = new Dictionary<string, int>();
 
     private static int dna;
     private static int tech;
@@ -213,6 +213,8 @@ public abstract class Player : MonoBehaviour, Hittable, IntertalReferenceUser, U
                 yield return new WaitForSeconds(1/regen);
                 health++;
             }
+            else
+                yield return new WaitForFixedUpdate();
         }
     }
 
@@ -236,11 +238,11 @@ public abstract class Player : MonoBehaviour, Hittable, IntertalReferenceUser, U
         controls.Player.Movement.canceled += ctx => { moveVector = ctx.ReadValue<Vector2>(); };
         
         controls.Player.Fire.performed += (Info) => {
-            if (Time.timeScale != 0)
+            if (Time.timeScale != 0 && !UIOpen)
                 OnPrimary();
         };
         controls.Player.Secondary.performed += (Info) => {
-            if (Time.timeScale != 0)
+            if (Time.timeScale != 0 && !UIOpen)
                 OnSecondary();
         };
         controls.Player.Interact.performed += (Info) => {

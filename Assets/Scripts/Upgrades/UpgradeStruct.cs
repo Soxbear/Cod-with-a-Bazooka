@@ -11,6 +11,8 @@ namespace Upgrades {
     {
         public bool empty;
 
+        public string identifier;
+
         public UpgradeMethod method;
 
         public string upgradeName;
@@ -29,8 +31,10 @@ namespace Upgrades {
 
         public int[] coins;
 
-        public Upgrade(UpgradeMethod _method, UpgradeMetadata data) {
+        public Upgrade(UpgradeMethod _method, string metadataPath) {
             empty = false;
+            UpgradeMetadata data = Resources.Load<UpgradeMetadata>(metadataPath);
+            identifier = metadataPath;
             method = _method;
             upgradeName = data.upgradeName;
             image = data.image;
@@ -44,6 +48,7 @@ namespace Upgrades {
 
         public Upgrade(bool b) {
             empty = true;
+            identifier = "";
             method = null;
             upgradeName = "";
             image = null;
@@ -63,7 +68,7 @@ namespace Upgrades {
             List<Upgrade> toRemove = new List<Upgrade>();
 
             foreach (Upgrade u in list) {
-                if (upgradable.upgradeLevels[u] == u.maxLevel)
+                if (upgradable.upgradeLevels[u.identifier] == u.maxLevel)
                     toRemove.Add(u);
             }
 
@@ -93,6 +98,8 @@ namespace Upgrades {
         public static Upgrade[] GetUpgrades(this Upgradable u, UpgradeStation station) {
             if (u.upgradeList == null || u.upgradeList.Length == 0) {
 
+                string upgradeDirectory = (u.GetType().GetCustomAttribute<UpgradeDirectory>() != null) ? $"Upgrades/{u.GetType().GetCustomAttribute<UpgradeDirectory>().directory}/" : "Upgrades/";
+
                 List<Upgrade> upgrades = new List<Upgrade>();
 
                 foreach (MethodInfo m in u.GetType().GetMethods()) {
@@ -102,23 +109,28 @@ namespace Upgrades {
                         
                         UpgradeMethod method;
 
+                        method = m.CreateDelegate(typeof(UpgradeMethod), u) as UpgradeMethod;
+
                         try {
-                            method = (UpgradeMethod) m.CreateDelegate(typeof(UpgradeMethod));
+                            
                         }
-                        catch (Exception) {
+                        catch (Exception e) {
+                            Debug.Log(e);
                             Debug.LogError("Upgrade Method did not match the required delegate");
                             continue;
                         }
 
-                        upgrades.Add(new Upgrade(method, Resources.Load<UpgradeMetadata>($"Upgrades/{h.metadataName}")));
+                        upgrades.Add(new Upgrade(method, $"{upgradeDirectory}{h.metadataName}"));
 
                         // if (!u.upgradeLevels.Keys.Contains(upgrades.Last()))
-                            u.upgradeLevels.Add(upgrades.Last(), -1);
+                        // u.upgradeLevels.Add(upgrades.Last().identifier, -1);
                     }
                 }
 
                 foreach (Upgrade up in upgrades) {
-                    u.upgradeLevels.Add(up, -1);
+                    if (!u.upgradeLevels.ContainsKey(up.identifier)) {
+                        u.upgradeLevels.Add(up.identifier, -1);
+                    }
                 }
 
                 u.upgradeList = upgrades.ToArray();

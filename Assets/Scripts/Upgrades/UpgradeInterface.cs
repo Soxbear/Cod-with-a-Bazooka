@@ -8,7 +8,7 @@ using UnityEngine;
 namespace Upgrades {
     public interface Upgradable
     {
-        Dictionary<Upgrade, int> upgradeLevels {
+        Dictionary<string, int> upgradeLevels {
             get;
             set;
         }

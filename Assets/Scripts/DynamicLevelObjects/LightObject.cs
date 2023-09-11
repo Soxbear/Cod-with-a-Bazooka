@@ -65,8 +65,6 @@ public class LightObject : MonoBehaviour, Hittable
         spriteRend = GetComponent<SpriteRenderer>();
 
         for (int i = 0; i < lights.Length; i++) {
-            Debug.Log(lightIntensity[i]);
-            Debug.Log(lights[i]);
             lightIntensity[i] = lights[i].intensity;
         }
 

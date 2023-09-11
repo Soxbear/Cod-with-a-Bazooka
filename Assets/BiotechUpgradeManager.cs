@@ -32,23 +32,23 @@ public class BiotechUpgradeManager : MonoBehaviour
         upgradable = u;
         upgrades = us;
 
-        tiles[0].SetTile(upgrades[0], (l < 1) ? 0 : upgradable.upgradeLevels[upgrades[0]]);
-        tiles[1].SetTile(upgrades[1], (l < 1) ? 0 : upgradable.upgradeLevels[upgrades[1]]);
-        tiles[2].SetTile(upgrades[2], (l < 1) ? 0 : upgradable.upgradeLevels[upgrades[2]]);
+        tiles[0].SetTile(upgrades[0], (l < 1) ? 0 : upgradable.upgradeLevels[upgrades[0].identifier] + 1);
+        tiles[1].SetTile(upgrades[1], (l < 2) ? 0 : upgradable.upgradeLevels[upgrades[1].identifier] + 1);
+        tiles[2].SetTile(upgrades[2], (l < 3) ? 0 : upgradable.upgradeLevels[upgrades[2].identifier] + 1);
     }
 
     public void Buy(int number) {
-        if (upgrades[number].dna[upgradable.upgradeLevels[upgrades[number]]] > Player.dnaCount || upgrades[number].tech[upgradable.upgradeLevels[upgrades[number]]] > Player.techCount)
+        if (upgrades[number].dna[upgradable.upgradeLevels[upgrades[number].identifier] + 1] > Player.dnaCount || upgrades[number].tech[upgradable.upgradeLevels[upgrades[number].identifier] + 1] > Player.techCount)
             return;
-
-        Player.dnaCount -= upgrades[number].dna[upgradable.upgradeLevels[upgrades[number]]];
-        Player.techCount -= upgrades[number].tech[upgradable.upgradeLevels[upgrades[number]]];
         
-        upgrades[number].method(upgradable.upgradeLevels[upgrades[number]]);
+        upgradable.upgradeLevels[upgrades[number].identifier]++;
 
-        upgradable.upgradeLevels[upgrades[number]]++;
+        Player.dnaCount -= upgrades[number].dna[upgradable.upgradeLevels[upgrades[number].identifier]];
+        Player.techCount -= upgrades[number].tech[upgradable.upgradeLevels[upgrades[number].identifier]];
+        
+        upgrades[number].method(upgradable.upgradeLevels[upgrades[number].identifier]);
 
-        tiles[number].SetTile(upgrades[number], upgradable.upgradeLevels[upgrades[number]]);
+        tiles[number].SetTile(upgrades[number], upgradable.upgradeLevels[upgrades[number].identifier] + 1);
     }
 
     public void HealDna() {

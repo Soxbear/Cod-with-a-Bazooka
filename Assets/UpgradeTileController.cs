@@ -40,7 +40,7 @@ public class UpgradeTileController : MonoBehaviour
             group.blocksRaycasts = true;
         }
 
-        if (level == upgrade.maxLevel) {
+        if (level - 1 == upgrade.maxLevel) {
             image.sprite = (upgrade.image.Length > 1) ? upgrade.image[level - 1] : upgrade.image[0];
             title.text = upgrade.upgradeName;
             description.text = (upgrade.description.Length > 1) ? upgrade.description[level - 1] : upgrade.description[0];
@@ -62,7 +62,7 @@ public class UpgradeTileController : MonoBehaviour
             next.enabled = true;
             dnaObject.SetActive(true);
             techObject.SetActive(true);
-            initial.text = (upgrade.indicators.Length > 0 && level >= 0) ? upgrade.indicators[level] : "";
+            initial.text = (upgrade.indicators.Length > 0 && level - 1 >= 0) ? upgrade.indicators[level - 1] : "";
             next.text = (upgrade.indicators.Length > 0) ? upgrade.indicators[level] : "";
             dna.text = upgrade.dna[level].ToString();
             tech.text = upgrade.tech[level].ToString();
@@ -70,15 +70,15 @@ public class UpgradeTileController : MonoBehaviour
             buy.enabled = true;
             grow.enabled = true;
 
-            if (upgrade.dna[level] < Player.dnaCount)
+            if (upgrade.dna[level] > Player.dnaCount)
                 dna.color = cantAfford;
             else
                 dna.color = afford;
             
-            if (upgrade.tech[level] < Player.techCount)
-                dna.color = cantAfford;
+            if (upgrade.tech[level] > Player.techCount)
+                tech.color = cantAfford;
             else
-                dna.color = afford;
+                tech.color = afford;
         }
     }
 }

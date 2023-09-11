@@ -16,4 +16,13 @@ namespace Upgrades {
             station = _station;
         }
     }
+
+    [AttributeUsage(AttributeTargets.Class)]
+    public class UpgradeDirectory : Attribute {
+        public string directory;
+
+        public UpgradeDirectory(string _directory) {
+            directory = _directory;
+        }
+    }
 }
